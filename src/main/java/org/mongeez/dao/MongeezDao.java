@@ -24,7 +24,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.QueryBuilder;
@@ -34,11 +33,11 @@ public class MongeezDao {
     private DB db;
     private List<ChangeSetAttribute> changeSetAttributes;
 
-    public MongeezDao(Mongo mongo, String databaseName) {
-        this(mongo, databaseName, null);
+    public MongeezDao(MongoClient mongoClient, String databaseName) {
+        this(mongoClient, databaseName, null);
     }
 
-    public MongeezDao(Mongo mongo, String databaseName, MongoAuth auth) {
+    public MongeezDao(MongoClient mongoClient, String databaseName, MongoAuth auth) {
         final List<MongoCredential> credentials = new LinkedList<MongoCredential>();
 
         if (auth != null) {
@@ -49,7 +48,7 @@ public class MongeezDao {
             }
         }
 
-        final MongoClient client = new MongoClient(mongo.getServerAddressList(),  credentials);
+        final MongoClient client = new MongoClient(mongoClient.getServerAddressList(),  credentials);
         db = client.getDB(databaseName);
         configure();
     }

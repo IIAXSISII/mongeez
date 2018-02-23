@@ -12,40 +12,50 @@
 
 package org.mongeez;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-import com.mongodb.DB;
-import com.mongodb.DBCursor;
-import com.mongodb.Mongo;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.mongeez.validation.ValidationException;
 import org.springframework.core.io.ClassPathResource;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-@Test
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+
 public class MongeezTest {
-    private String dbName = "test_mongeez";
-    private Mongo mongo;
+    private String dbName = "mongeez-test-sabin";
+    private MongoClient mongoClient;
     private DB db;
 
-    @BeforeMethod
-    protected void setUp() throws Exception {
-        mongo = new Mongo();
-        db = mongo.getDB(dbName);
-
+	@Before
+    public void setUp() throws Exception {
+    	MongoCredential credential = MongoCredential.createCredential("dataservices", dbName, "testing123$".toCharArray());
+    	MongoClientOptions options = MongoClientOptions.builder().build();
+    	List<MongoCredential> credentials = new ArrayList<MongoCredential>();
+    	credentials.add(credential);
+    	ServerAddress address = new ServerAddress("localhost", 27017);
+        mongoClient = new MongoClient(address, credentials, options);
+        db = mongoClient.getDB(dbName);
         db.dropDatabase();
     }
 
     private Mongeez create(String path) {
         Mongeez mongeez = new Mongeez();
         mongeez.setFile(new ClassPathResource(path));
-        mongeez.setMongo(mongo);
+        mongeez.setMongo(mongoClient);
         mongeez.setDbName(dbName);
+        MongoAuth auth = new MongoAuth("dataservices", "testing123$", dbName);
+        mongeez.setAuth(auth);
         return mongeez;
     }
 
-    @Test(groups = "dao")
+    @Test
     public void testMongeez() throws Exception {
         Mongeez mongeez = create("mongeez.xml");
 
@@ -57,13 +67,13 @@ public class MongeezTest {
         assertEquals(db.getCollection("user").count(), 2);
     }
 
-    @Test(groups = "dao")
+    @Test
     public void testRunTwice() throws Exception {
         testMongeez();
         testMongeez();
     }
 
-    @Test(groups = "dao")
+    @Test
     public void testFailOnError_False() throws Exception {
         assertEquals(db.getCollection("mongeez").count(), 0);
 
@@ -73,13 +83,13 @@ public class MongeezTest {
         assertEquals(db.getCollection("mongeez").count(), 2);
     }
 
-    @Test(groups = "dao", expectedExceptions = com.mongodb.MongoCommandException.class)
+    @Test(expected = com.mongodb.MongoCommandException.class)
     public void testFailOnError_True() throws Exception {
         Mongeez mongeez = create("mongeez_fail_fail.xml");
         mongeez.process();
     }
 
-    @Test(groups = "dao")
+    @Test
     public void testNoFiles() throws Exception {
         Mongeez mongeez = create("mongeez_empty.xml");
         mongeez.process();
@@ -87,7 +97,7 @@ public class MongeezTest {
         assertEquals(db.getCollection("mongeez").count(), 1);
     }
 
-    @Test(groups = "dao")
+    @Test
     public void testNoFailureOnEmptyChangeLog() throws Exception {
         assertEquals(db.getCollection("mongeez").count(), 0);
 
@@ -97,7 +107,7 @@ public class MongeezTest {
         assertEquals(db.getCollection("mongeez").count(), 1);
     }
 
-    @Test(groups = "dao", expectedExceptions = ValidationException.class)
+    @Test(expected = ValidationException.class)
     public void testNoFailureOnNoChangeFilesBlock() throws Exception {
         assertEquals(db.getCollection("mongeez").count(), 0);
 
@@ -105,7 +115,7 @@ public class MongeezTest {
         mongeez.process();
     }
 
-    @Test(groups = "dao")
+    @Test
     public void testChangesWContextContextNotSet() throws Exception {
         assertEquals(db.getCollection("mongeez").count(), 0);
 
@@ -118,7 +128,7 @@ public class MongeezTest {
         assertEquals(db.getCollection("house").count(), 0);
     }
 
-    @Test(groups = "dao")
+    @Test
     public void testChangesWContextContextSetToUsers() throws Exception {
         assertEquals(db.getCollection("mongeez").count(), 0);
 
@@ -132,7 +142,7 @@ public class MongeezTest {
         assertEquals(db.getCollection("house").count(), 2);
     }
 
-    @Test(groups = "dao")
+    @Test
     public void testChangesWContextContextSetToOrganizations() throws Exception {
         assertEquals(db.getCollection("mongeez").count(), 0);
 
@@ -146,7 +156,7 @@ public class MongeezTest {
         assertEquals(db.getCollection("house").count(), 2);
     }
 
-    @Test(groups = "dao", expectedExceptions = ValidationException.class)
+    @Test(expected = ValidationException.class)
     public void testFailDuplicateIds() throws Exception {
         Mongeez mongeez = create("mongeez_fail_on_duplicate_changeset_ids.xml");
         mongeez.process();

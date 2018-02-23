@@ -11,15 +11,14 @@
  */
 package org.mongeez;
 
-import com.mongodb.Mongo;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.core.io.Resource;
-
 import org.mongeez.reader.ChangeSetFileProvider;
 import org.mongeez.validation.ChangeSetsValidator;
 import org.mongeez.validation.DefaultChangeSetsValidator;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.io.Resource;
+
+import com.mongodb.MongoClient;
 
 /**
  * @author oleksii
@@ -27,7 +26,7 @@ import org.mongeez.validation.DefaultChangeSetsValidator;
  */
 public class MongeezRunner implements InitializingBean {
     private boolean executeEnabled = false;
-    private Mongo mongo;
+    private MongoClient mongoClient;
     private String dbName;
     private Resource file;
 
@@ -48,7 +47,7 @@ public class MongeezRunner implements InitializingBean {
 
     public void execute() {
         Mongeez mongeez = new Mongeez();
-        mongeez.setMongo(mongo);
+        mongeez.setMongo(mongoClient);
         mongeez.setDbName(dbName);
         
         if(changeSetsValidator != null) {
@@ -64,7 +63,7 @@ public class MongeezRunner implements InitializingBean {
             mongeez.setFile(file);
 
             if(!StringUtils.isEmpty(userName) && !StringUtils.isEmpty(passWord)){
-            	MongoAuth auth = new MongoAuth(userName, passWord, authDb);
+                MongoAuth auth = new MongoAuth(userName, passWord, authDb);
                 mongeez.setAuth(auth);
             }
         }
@@ -80,8 +79,8 @@ public class MongeezRunner implements InitializingBean {
         this.executeEnabled = executeEnabled;
     }
 
-    public void setMongo(Mongo mongo) {
-        this.mongo = mongo;
+    public void setMongo(MongoClient mongoClient) {
+        this.mongoClient = mongoClient;
     }
 
     public void setDbName(String dbName) {
@@ -100,13 +99,13 @@ public class MongeezRunner implements InitializingBean {
         return dbName;
     }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
-	}
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
 
     public void setAuthDb(String authDb) {
         this.authDb = authDb;
