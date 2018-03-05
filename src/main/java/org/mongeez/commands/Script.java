@@ -12,13 +12,21 @@
 package org.mongeez.commands;
 
 import org.mongeez.dao.MongeezDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBObject;
 
 /**
  * @author oleksii
  * @since 5/3/11
  */
 public class Script {
-    private String body;
+
+    private final Logger logger = LoggerFactory.getLogger(MongeezDao.class);
+	private String body;
 
     public String getBody() {
         return body;
@@ -28,7 +36,13 @@ public class Script {
         this.body = body;
     }
 
-    public void run(MongeezDao dao) {
-        dao.runScript(body);
+    public CommandResult run(MongeezDao dao) {
+        final DBObject command = new BasicDBObject();
+        String function = "function() { " + body + "}";
+        logger.info("Executing the function as eval:  " + function);
+        command.put("eval", function);
+        return dao.runScript(command);
     }
 }
+
+

@@ -35,7 +35,6 @@ public class MongeezRunner implements InitializingBean {
     private String authDb;
     
     private ChangeSetFileProvider changeSetFileProvider;
-
     private ChangeSetsValidator changeSetsValidator;
 
     @Override

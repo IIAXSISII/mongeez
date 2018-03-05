@@ -20,6 +20,7 @@ import org.mongeez.dao.MongeezDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mongodb.CommandResult;
 import com.mongodb.MongoClient;
 
 
@@ -57,13 +58,16 @@ public class ChangeSetExecutor {
     private void execute(ChangeSet changeSet) {
         try {
             for (Script command : changeSet.getCommands()) {
-                command.run(dao);
+                CommandResult commandResult = command.run(dao);
+                commandResult.throwOnError();
+                logger.info("ChangeSet " + changeSet.getChangeId() + " successfuly executed.");
             }
         } catch (RuntimeException e) {
             if (changeSet.isFailOnError()) {
+                logger.error("ChangeSet " + changeSet.getChangeId() + " has failed, but failOnError is set to false", e);
                 throw e;
             } else {
-                logger.warn("ChangeSet " + changeSet.getChangeId() + " has failed, but failOnError is set to false", e.getMessage());
+                logger.warn("ChangeSet " + changeSet.getChangeId() + " has failed, but failOnError is set to false", e);
             }
         }
         dao.logChangeSet(changeSet);

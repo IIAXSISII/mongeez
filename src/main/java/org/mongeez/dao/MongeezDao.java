@@ -19,8 +19,11 @@ import java.util.List;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.mongeez.MongoAuth;
 import org.mongeez.commands.ChangeSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -134,6 +137,10 @@ public class MongeezDao {
         db.eval(code);
     }
 
+    public CommandResult runScript(DBObject command) {
+        return db.command(command);
+    }
+ 
     public void logChangeSet(ChangeSet changeSet) {
         BasicDBObject object = new BasicDBObject();
         object.append("type", RecordType.changeSetExecution.name());
