@@ -10,10 +10,10 @@
 
 package org.mongeez.reader;
 
-import org.springframework.core.io.Resource;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.core.io.Resource;
 
 public class ChangeSetReaderFactory {
     private static ChangeSetReaderFactory instance;
@@ -22,7 +22,6 @@ public class ChangeSetReaderFactory {
 
     private ChangeSetReaderFactory() {
         readers = new ArrayList<ChangeSetReader>();
-        readers.add(new FormattedJavascriptChangeSetReader());
         readers.add(new XmlChangeSetReader());
     }
 

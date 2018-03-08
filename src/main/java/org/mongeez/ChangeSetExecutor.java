@@ -12,15 +12,15 @@
 
 package org.mongeez;
 
+import java.util.List;
+
 import org.mongeez.commands.ChangeSet;
 import org.mongeez.commands.Script;
 import org.mongeez.dao.MongeezDao;
-
-import com.mongodb.Mongo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import com.mongodb.MongoClient;
 
 
 public class ChangeSetExecutor {
@@ -29,12 +29,12 @@ public class ChangeSetExecutor {
     private MongeezDao dao = null;
     private String context = null;
 
-    public ChangeSetExecutor(Mongo mongo, String dbName, String context) {
-        this(mongo, dbName, context, null);
+    public ChangeSetExecutor(MongoClient mongoClient, String dbName, String context) {
+        this(mongoClient, dbName, context, null);
     }
 
-    public ChangeSetExecutor(Mongo mongo, String dbName, String context, MongoAuth auth) {
-        dao = new MongeezDao(mongo, dbName, auth);
+    public ChangeSetExecutor(MongoClient mongoClient, String dbName, String context, MongoAuth auth) {
+        dao = new MongeezDao(mongoClient, dbName, auth);
         this.context = context;
     }
 
@@ -58,12 +58,14 @@ public class ChangeSetExecutor {
         try {
             for (Script command : changeSet.getCommands()) {
                 command.run(dao);
+                logger.info("ChangeSet " + changeSet.getChangeId() + " from file " + changeSet.getFile() + " successfuly executed.");
             }
         } catch (RuntimeException e) {
             if (changeSet.isFailOnError()) {
+                logger.error("ChangeSet " + changeSet.getChangeId() + " from file " + changeSet.getFile() + " has failed, and failOnError is set to true", e);
                 throw e;
             } else {
-                logger.warn("ChangeSet " + changeSet.getChangeId() + " has failed, but failOnError is set to false", e.getMessage());
+                logger.warn("ChangeSet " + changeSet.getChangeId() + " from file " + changeSet.getFile() + " has failed, but failOnError is set to false", e);
             }
         }
         dao.logChangeSet(changeSet);

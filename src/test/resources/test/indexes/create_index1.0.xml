@@ -1,0 +1,69 @@
+<mongoChangeLog>
+<changeSet changeId="playstationIdx" author="sabin" commandName="createIndexes">
+    <script>
+	{
+      createIndexes: "playstation",
+      indexes: 
+	  [
+        {
+            key: {"psnId":1},
+            name: "psnId_1",
+        },{
+            key: {"userId":1},
+            name: "userId_1",
+        },{
+            key: {"createdDate":1},
+            name: "createdDate_1",
+        },{
+            key: {"insertTimestamp":1},
+            name: "insertTimestamp_1",
+        },{
+            key: {"sourceName":1},
+            name: "sourceName_1",
+        }
+	  ]
+    }
+    </script>
+</changeSet>
+<changeSet changeId="restOfIdx" author="sabin" commandName="createIndexes">
+    <script>
+	{
+      createIndexes: "wii",
+      indexes: 
+	  [
+        {
+            key: {"wiiId":1},
+            name: "wiiId_1",
+        }
+	  ]
+    }
+    </script>
+    <script>
+	{
+      createIndexes: "playstation4games",
+      indexes: 
+	  [
+        {
+            key: {"gameId":1},
+            name: "gameId_1",
+        }
+	  ]
+    }
+    </script>
+    <script>
+	{
+      createIndexes: "xbox",
+      indexes: 
+	  [
+        {
+            key: {"sourceName":1},
+            name: "sourceName_1",
+        },{
+            key: {"xboxId":1},
+            name: "xboxId_1",
+        }
+	  ]
+    }
+    </script>
+</changeSet>
+</mongoChangeLog>

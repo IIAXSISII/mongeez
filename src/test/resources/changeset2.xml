@@ -11,37 +11,33 @@
   -->
 
 <mongoChangeLog>
-
-    <changeSet changeId="ChangeSet-3" author="mlysaght">
+    <changeSet changeId="ChangeSet-3" author="mlysaght" commandName="update">
         <script>
-            db.organization.update({Location : "NYC"}, {$set : {Location : "NY"}}, false, true);
+        {
+            update: "organization",
+            updates: [
+            {
+              q: {Location : "NYC"}, 
+              u: {$set : {Location : "NY"}},
+              upsert: false,
+              multi: true
+            }]
+        }
         </script>
     </changeSet>
 
-    <changeSet changeId="ChangeSet-4" author="mlysaght">
+    <changeSet changeId="ChangeSet-4" author="mlysaght" commandName="update">
         <script>
-            db.organization.find().forEach(function(org) {
-                var year = org.DateFounded.Year;
-                var month = org.DateFounded.Month;
-                var day = org.DateFounded.day;
-                //Year is minimum required information
-                if (year != null) {
-                    var date = new Date();
-                    if (month != null) {
-                        if (day != null) {
-                            date.setUTCDate(day);
-                        }
-                        date.setMonth(month - 1);
-                    }
-                    date.setFullYear(year);
-                }
-                if (date != null) {
-                    db.organization.update({Organization : org.Organization}, {$set : {DateFounded : date}});
-                }
-                else {
-                    db.organization.update({Organization : org.Organization}, {$unset : {DateFounded : 1 }});
-                }
-            });
+        {
+            update: "organization",
+            updates: [
+            {
+              q: {Organization : "My new org"},
+              u: {$set : {DateFounded : new Date()}},
+              upsert: false,
+              multi: true
+            }]
+        }          
         </script>
     </changeSet>
 

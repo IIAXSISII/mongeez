@@ -11,14 +11,20 @@
  */
 package org.mongeez.commands;
 
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.mongeez.dao.MongeezDao;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author oleksii
  * @since 5/3/11
  */
 public class Script {
-    private String body;
+
+    private final Logger logger = LoggerFactory.getLogger(MongeezDao.class);
+	private String body;
 
     public String getBody() {
         return body;
@@ -28,7 +34,11 @@ public class Script {
         this.body = body;
     }
 
-    public void run(MongeezDao dao) {
-        dao.runScript(body);
+    public Document run(MongeezDao dao) {
+        logger.info("Executing script:  " + body);
+        Bson command = Document.parse(body);
+        return dao.runScript(command);
     }
 }
+
+

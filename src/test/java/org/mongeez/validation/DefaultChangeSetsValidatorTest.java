@@ -3,12 +3,12 @@ package org.mongeez.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
 import org.mongeez.commands.ChangeSet;
-import org.testng.annotations.Test;
 
 public class DefaultChangeSetsValidatorTest {
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expected = ValidationException.class)
     public void testDetectDuplicateFirstHalf() throws Exception {
         DefaultChangeSetsValidator validator = new DefaultChangeSetsValidator();
 
@@ -27,7 +27,7 @@ public class DefaultChangeSetsValidatorTest {
         validator.validate(changeSets);
     }
 
-    @Test(expectedExceptions = ValidationException.class)
+    @Test(expected = ValidationException.class)
     public void testDetectDuplicateSecondHalf() throws Exception {
         DefaultChangeSetsValidator validator = new DefaultChangeSetsValidator();
 
@@ -68,6 +68,7 @@ public class DefaultChangeSetsValidatorTest {
     private ChangeSet makeChangeSet(String id) {
         ChangeSet changeSet = new ChangeSet();
         changeSet.setChangeId(id);
+        changeSet.setCommandName("testcommand");
         return changeSet;
     }
 
