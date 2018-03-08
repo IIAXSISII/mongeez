@@ -12,6 +12,9 @@
 
 package org.mongeez;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mongeez.commands.ChangeSet;
 import org.mongeez.commands.Script;
 import org.mongeez.reader.ChangeSetFileProvider;
@@ -19,21 +22,17 @@ import org.mongeez.reader.ChangeSetReaderFactory;
 import org.mongeez.reader.FilesetXMLChangeSetFileProvider;
 import org.mongeez.validation.ChangeSetsValidator;
 import org.mongeez.validation.DefaultChangeSetsValidator;
-
-import com.mongodb.Mongo;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.mongodb.MongoClient;
 
 
 public class Mongeez {
     private final static Logger logger = LoggerFactory.getLogger(Mongeez.class);
 
-    private Mongo mongo = null;
+    private MongoClient mongoClient = null;
     private String dbName;
     private MongoAuth auth = null;
     private ChangeSetFileProvider changeSetFileProvider = null;
@@ -42,7 +41,7 @@ public class Mongeez {
 
     public void process() {
         List<ChangeSet> changeSets = getChangeSets();
-        new ChangeSetExecutor(mongo, dbName, context, auth).execute(changeSets);
+        new ChangeSetExecutor(mongoClient, dbName, context, auth).execute(changeSets);
     }
 
     private List<ChangeSet> getChangeSets() {
@@ -51,6 +50,7 @@ public class Mongeez {
 
         ChangeSetReaderFactory readerFactory = ChangeSetReaderFactory.getInstance();
         for (Resource file : files) {
+            
             changeSets.addAll(readerFactory.getChangeSetReader(file).getChangeSets(file));
         }
         logChangeSets(changeSets);
@@ -75,8 +75,8 @@ public class Mongeez {
         }
     }
 
-    public void setMongo(Mongo mongo) {
-        this.mongo = mongo;
+    public void setMongo(MongoClient mongoClient) {
+        this.mongoClient = mongoClient;
     }
 
     public void setDbName(String dbName) {

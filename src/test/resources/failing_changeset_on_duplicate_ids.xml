@@ -11,14 +11,18 @@
   -->
 
 <mongoChangeLog>
-    <changeSet changeId="ChangeSet-1" author="d0x">
+    <changeSet changeId="ChangeSet-1" author="d0x" commandName="find">
         <script>
-            db.organization.findOne();
+            {
+              find: "test"
+            }
         </script>
     </changeSet>
-    <changeSet changeId="ChangeSet-1" author="d0x">
+    <changeSet changeId="ChangeSet-1" author="d0x" commandName="find">
         <script>
-            db.organization.findOne();
+            {
+              find: "tasty"
+            }
         </script>
     </changeSet>
 </mongoChangeLog>

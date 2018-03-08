@@ -2,7 +2,9 @@ package org.mongeez.validation;
 
 public class ValidationException extends RuntimeException {
 
-    public ValidationException() {
+	private static final long serialVersionUID = 1473828583950259922L;
+
+	public ValidationException() {
         super();
     }
 

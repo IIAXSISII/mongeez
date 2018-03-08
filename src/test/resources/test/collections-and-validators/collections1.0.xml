@@ -1,0 +1,96 @@
+<mongoChangeLog>
+    <changeSet changeId="Set-1" author="sabin" commandName="create">
+        <script>
+        {
+            create: "playstation",
+            validationLevel : "strict",
+            validationAction : "error",
+            validator: { $and:
+                                [                        
+                                { sourceName: {$type: "string", $exists : true}},
+                                { psnId: {$type: "string", $exists : true}},
+                                { userId: {$type: "string", $exists : true}},
+                                { createdDate: {$type: "date", $exists : true}},
+                                { lastUpdatedDate: {$type: "date", $exists : true}},
+                                { insertTimestamp: {$type: "date", $exists : true}},
+                                { lastUpdatedBy: {$type: "string", $exists: true}},
+                                { $or: [{updateTimestamp: {$type: "date", $exists: true}},{updateTimestamp: {$exists: false}}]},
+                                { $or: [{createdBy: {$type: "string", $exists: true}},{createdBy: {$exists: false}}]}, 
+                                { $or: [{createDate: {$type: "date", $exists: true}},{createDate: {$exists: false}}]},
+                            ]}
+        }
+        </script>
+        <script>
+        {
+            create: "xbox",
+            validationLevel : "strict",
+            validationAction : "error",
+            validator: { $and:
+                                [                        
+                                { sourceName: {$type: "string", $exists : true}},
+                                { xboxId: {$type: "string", $exists : true}},
+                                { createdDate: {$type: "date", $exists : true}},
+                                { lastUpdatedDate: {$type: "date", $exists : true}},
+                                { insertTimestamp: {$type: "date", $exists : true}},
+                                { lastUpdatedBy: {$type: "string", $exists: true}},
+                                { $or: [{updateTimestamp: {$type: "date", $exists: true}},{updateTimestamp: {$exists: false}}]},
+                                { $or: [{source: {$type: "string", $exists: true}},{sourceId: {$exists: false}}]},
+                                { $or: [{system: {$type: "string", $exists: true}},{sourceSystem: {$exists: false}}]},
+                                { $or: [{firstName: {$type: "string", $exists: true}},{firstName: {$exists: false}}]},
+                                { $or: [{lastName: {$type: "string", $exists: true}},{lastName: {$exists: false}}]},
+                                { $or: [{middleName: {$type: "string", $exists: true}},{middleName: {$exists: false}}]},
+                                { $or: [{person: {$type: "string", $exists: true}},{personId: {$exists: false}}]},
+                                { $or: [{createdBy: {$type: "string", $exists: true}},{createdBy: {$exists: false}}]}, 
+                                { $or: [{city: {$type: "string", $exists: true}},{city: {$exists: false}}]},
+                                { $or: [{state: {$type: "string", $exists: true}},{state: {$exists: false}}]},
+                                { $or: [{country: {$type: "string", $exists: true}},{country: {$exists: false}}]},
+                                { $or: [{Code: {$type: "string", $exists: true}},{statusCode: {$exists: false}}]},
+                                { $or: [{createDate: {$type: "date", $exists: true}},{createDate: {$exists: false}}]},
+                       ]}
+        }
+        </script>
+        <script>
+        {
+            create: "wii",
+            validationLevel : "strict",
+            validationAction : "error",
+            validator: { $and:
+                                [
+                                { wiiId: {$type: "string", $exists : true}},
+                                { createdDate: {$type: "date", $exists : true}},
+                                { lastUpdatedDate: {$type: "date", $exists : true}},
+                                { insertTimestamp: {$type: "date", $exists : true}},
+                                { lastUpdatedBy: {$type: "string", $exists: true}},
+                                { $or: [{updateTimestamp: {$type: "date", $exists: true}},{updateTimestamp: {$exists: false}}]},
+                                { $or: [{Name: {$type: "string", $exists: true}},{Name: {$exists: false}}]},
+                                { $or: [{createdBy: {$type: "string", $exists: true}},{createdBy: {$exists: false}}]}, 
+                                { $or: [{city: {$type: "string", $exists: true}},{city: {$exists: false}}]},
+                                { $or: [{state: {$type: "string", $exists: true}},{state: {$exists: false}}]},
+                                { $or: [{country: {$type: "string", $exists: true}},{country: {$exists: false}}]},
+                                { $or: [{Code: {$type: "string", $exists: true}},{statusCode: {$exists: false}}]},
+                        ]}
+        }
+        </script>
+    </changeSet>
+    <changeSet changeId="Set-2" author="sabin" commandName="create">
+        <script>
+        {
+            create: "playstation4games",
+            validationLevel : "strict",
+            validationAction : "error",
+            validator: { $and:
+                                [
+                                { name: {$type: "string", $exists : true}},
+                                { gameId: {$type: "string", $exists : true}},
+                                { createdDate: {$type: "date", $exists : true}},
+                                { lastUpdatedDate: {$type: "date", $exists : true}},
+                                { insertTimestamp: {$type: "date", $exists : true}},
+                                { lastUpdatedBy: {$type: "string", $exists: true}},
+                                { $or: [{updateTimestamp: {$type: "date", $exists: true}},{updateTimestamp: {$exists: false}}]},
+                                { $or: [{createdBy: {$type: "string", $exists: true}},{createdBy: {$exists: false}}]}, 
+                                { $or: [{createDate: {$type: "date", $exists: true}},{createDate: {$exists: false}}]},
+                            ]}
+        }
+        </script>
+    </changeSet>
+</mongoChangeLog>

@@ -20,6 +20,7 @@ public class ChangeSet {
     private String author;
     private String file;
     private String resourcePath;
+    private String commandName;
     private String contextsStr;
     private ArrayList<String> contexts;
 
@@ -115,4 +116,12 @@ public class ChangeSet {
         }
         return contexts.isEmpty() || (context != null && contexts.contains(context.toLowerCase().trim()));
     }
+
+	public String getCommandName() {
+		return commandName;
+	}
+
+	public void setCommandName(String commandName) {
+		this.commandName = commandName;
+	}
 }

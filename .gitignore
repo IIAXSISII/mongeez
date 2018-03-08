@@ -11,3 +11,12 @@ messages.log
 *.ipr
 *.iws
 target/
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# Mac
+.DS_STORE
+

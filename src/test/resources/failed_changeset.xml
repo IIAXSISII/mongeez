@@ -12,9 +12,12 @@
 
 <mongoChangeLog>
 
-    <changeSet changeId="i-will-fail" author="jozic" failOnError="true">
+    <changeSet changeId="i-will-fail" author="jozic" failOnError="true" commandName="failCommand">
         <script>
-            db.NonExisting.fail({miserably})
+            {
+              NonExisting: "fail",
+              fail: "miserably"
+            }
         </script>
     </changeSet>
 

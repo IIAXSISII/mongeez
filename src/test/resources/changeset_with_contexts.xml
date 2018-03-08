@@ -1,40 +1,60 @@
 <mongoChangeLog>
-    <changeSet changeId="ChangeSet-1" author="mlysaght" contexts="organizations">
+    <changeSet changeId="ChangeSet-1" author="mlysaght" contexts="organizations" commandName="insert">
         <script>
-            db.organization.insert({
-                "Organization" : "10Gen",
-                "Location" : "NYC",
-                DateFounded : {"Year" : 2008, "Month" : 01, "day" :01}
-            });
-            db.organization.insert({
-                "Organization" : "SecondMarket",
-                "Location" : "NYC",
-                DateFounded : {"Year" : 2004, "Month" : 05, "day" :04}
-            });
+        {
+            insert: "organization",
+            documents: [{
+              "Organization" : "10Gen",
+              "Location" : "NYC",
+              DateFounded : {"Year" : 2008, "Month" : 01, "day" :01}
+            },{
+              "Organization" : "SecondMarket",
+              "Location" : "NYC",
+              DateFounded : {"Year" : 2004, "Month" : 05, "day" :04}
+            }]
+        }
         </script>
     </changeSet>
-    <changeSet changeId="ChangeSet-2" author="mlysaght" contexts="users">
+    <changeSet changeId="ChangeSet-2" author="mlysaght" contexts="users" commandName="insert">
         <script>
-            db.user.insert({ "Name" : "Michael Lysaght"});
+        {
+            insert: "user",
+            documents: [{ "Name" : "Michael Lysaght"}]
+        }
         </script>
         <script>
-            db.user.insert({ "Name" : "Oleksii Iepishkin"});
-        </script>
-    </changeSet>
-    <changeSet changeId="ChangeSet-3" author="exell">
-        <script>
-            db.car.insert({ "Type" : "Porsche"});
-        </script>
-        <script>
-            db.car.insert({ "Type" : "Lamborghini"});
+        {
+            insert: "user",
+            documents: [{ "Name" : "Oleksii Iepishkin"}]
+         }
         </script>
     </changeSet>
-   <changeSet changeId="ChangeSet-4" author="exell" contexts="users, organizations">
+    <changeSet changeId="ChangeSet-3" author="exell" commandName="insert">
         <script>
-            db.house.insert({ "Type" : "Bungalow"});
+        {
+            insert: "car",
+            documents: [{ "Type" : "Porsche"}]
+        }
         </script>
         <script>
-            db.house.insert({ "Type" : "Split-Level"});
+        {
+            insert: "car",
+            documents: [{ "Type" : "Lamborghini"}]
+        }
+        </script>
+    </changeSet>
+   <changeSet changeId="ChangeSet-4" author="exell" contexts="users, organizations" commandName="insert">
+        <script>
+        {
+            insert: "house",
+            documents: [{ "Type" : "Bungalow"}]
+        }
+        </script>
+        <script>
+        {
+            insert: "house",
+            documents: [{ "Type" : "Split-Level"}]
+        }
         </script>
     </changeSet>
 </mongoChangeLog>
