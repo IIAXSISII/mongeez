@@ -1,3 +1,6 @@
+### NOTE
+This repo is a fork of mongeez/mongeez repository. It supports the execution of Mongodb Database Command (db.runCommand( { <command> } )). The supported listed of commands are listed in https://docs.mongodb.com/manual/reference/command/
+
 ### What is mongeez?
 
 mongeez allows you to manage changes of your mongo documents and propagate these changes in sync with your code changes when you perform deployments.
