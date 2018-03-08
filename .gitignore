@@ -1,6 +1,6 @@
 # maven files
 /*/target
-
+bin/
 # test logs
 test-output
 messages.log
