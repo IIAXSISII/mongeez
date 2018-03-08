@@ -1,5 +1,5 @@
 ### NOTE
-This repo is a fork of mongeez/mongeez repository. It supports the execution of Mongodb Database Command (db.runCommand( { <command> } )). The supported listed of commands are listed in https://docs.mongodb.com/manual/reference/command/
+This repo is a fork of mongeez/mongeez repository. It supports 3.x version of Mongodb Database Commands (db.runCommand( { <command> } )). The supported listed of commands are listed in https://docs.mongodb.com/manual/reference/command/
 
 ### What is mongeez?
 
