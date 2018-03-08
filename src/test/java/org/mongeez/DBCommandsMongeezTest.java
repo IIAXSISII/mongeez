@@ -100,9 +100,4 @@ public class DBCommandsMongeezTest {
         }
     }
 
-    @Test
-    public void testScripts() throws Exception {
-        
-    }
-
 }
